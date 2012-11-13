@@ -8,10 +8,12 @@ using System.Text;
 using System.Windows.Forms;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
-using BackupV3_API;
 using System.IO;
-using returnzork.XmlReader;
 using System.Reflection;
+
+using BackupV3_API;
+using returnzork.XmlReader;
+using returnzork.ErrorLogging;
 
 namespace Backup_V3
 {
@@ -25,6 +27,7 @@ namespace Backup_V3
         string PluginsFolder;
         string[] Imports = { "", "", "", "" };
         XmlReader xml;
+        ErrorLogging logger;
 
         public Form1()
         {
@@ -37,7 +40,7 @@ namespace Backup_V3
             AddPluginInterface();
 
             xml = new XmlReader(SettingsFolder + "Settings.config");
-            
+            logger = new ErrorLogging(SettingsFolder + "Error.log");
         }
 
         private void Check()
@@ -134,8 +137,7 @@ namespace Backup_V3
             CopyWorker.RunWorkerAsync();
         }
 
-        DateTime Started;// = DateTime.Now;
-        DateTime End;// = DateTime.Now.AddMinutes(2);
+        DateTime Started, End;
 
         private void CopyWorker_DoWork(object sender, DoWorkEventArgs e)
         {
