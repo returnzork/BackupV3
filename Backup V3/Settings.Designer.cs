@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Settings));
             this.PluginsBTN = new System.Windows.Forms.Button();
             this.WorldToBox = new System.Windows.Forms.TextBox();
             this.WorldToLabel = new System.Windows.Forms.Label();
@@ -119,6 +120,7 @@
             this.Controls.Add(this.WorldToLabel);
             this.Controls.Add(this.WorldToBox);
             this.Controls.Add(this.PluginsBTN);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Settings";
             this.Text = "Settings";
             this.Load += new System.EventHandler(this.Settings_Load);

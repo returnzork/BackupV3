@@ -119,6 +119,7 @@
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.TestPlBTN);
             this.Controls.Add(this.SettingsBtn);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "Form1";
             this.toolStrip1.ResumeLayout(false);
