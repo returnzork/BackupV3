@@ -71,15 +71,15 @@ namespace Backup_V3
             }
             catch (FileNotFoundException fnfex)
             {
-                MessageBox.Show(fnfex.Message);
+                logger.MakeLog(fnfex);
             }
             catch (CompositionException cex)
             {
-                MessageBox.Show(cex.Message);
+                logger.MakeLog(cex);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                logger.MakeLog(ex);
             }
 
 #if DEBUG
