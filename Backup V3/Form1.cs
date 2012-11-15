@@ -58,6 +58,8 @@ namespace Backup_V3
                     fs.WriteByte((byte)stream.ReadByte());
                 fs.Close();
             }
+            if (!Directory.Exists(SettingsFolder + "PluginConfig"))
+                Directory.CreateDirectory(SettingsFolder + "PluginConfig");
         }
         
         public void LoadPlugins()
@@ -210,7 +212,7 @@ namespace Backup_V3
 
         private void CopyWorker_Completed(object sender, RunWorkerCompletedEventArgs e)
         {
-
+            //TODO Restart background worker
         }
     }
 }
