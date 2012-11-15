@@ -36,7 +36,7 @@
   <ItemGroup>
     <Reference Include="BackupV3 API, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\API\BackupV3 API\bin\Debug\BackupV3 API.dll</HintPath>
+      <HintPath>..\..\BackupV3_API\BackupV3 API\bin\Release\BackupV3 API.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -72,7 +72,6 @@
     <Compile Include="Settings.Designer.cs">
       <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
-    <Compile Include="Class Files\XMLReader.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

@@ -11,8 +11,8 @@ using System.ComponentModel.Composition.Hosting;
 using System.IO;
 using System.Reflection;
 
-using BackupV3_API;
-using returnzork.XmlReader;
+using returnzork.BackupV3_API;
+using returnzork.BackupV3_API.XmlReader;
 using returnzork.ErrorLogging;
 
 namespace Backup_V3
