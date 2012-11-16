@@ -39,6 +39,11 @@ namespace Backup_V3
             LoadPlugins();
             AddPluginInterface();
 
+            foreach (var plugin in plugins)
+            {
+                plugin.Initialize();
+            }
+
             xml = new XmlReader(SettingsFolder + "Settings.config");
             logger = new ErrorLogging(SettingsFolder + "Error.log");
         }
@@ -60,6 +65,8 @@ namespace Backup_V3
             }
             if (!Directory.Exists(SettingsFolder + "PluginConfig"))
                 Directory.CreateDirectory(SettingsFolder + "PluginConfig");
+            if (!Directory.Exists(SettingsFolder + "PluginLib"))
+                Directory.CreateDirectory(SettingsFolder + "PluginLib");
         }
         
         public void LoadPlugins()
