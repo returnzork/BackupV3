@@ -147,6 +147,7 @@ namespace Backup_V3
             CopyWorker.WorkerReportsProgress = true;
             CopyWorker.ProgressChanged += new ProgressChangedEventHandler(CopyWorker_ProgressChange);
             CopyWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(CopyWorker_Completed);
+            CopyWorker.WorkerSupportsCancellation = true;
             CopyWorker.RunWorkerAsync();
 
 
@@ -175,7 +176,15 @@ namespace Backup_V3
 
         private void CopyWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            
+            if (!Directory.Exists(xml.GetKey("WorldFrom")))
+            {
+                MessageBox.Show("Directory \"" + xml.GetKey("WorldFrom") +"\" does not exist, cannot continue.");
+                ShouldIStop = true;
+                CopyWorker.ReportProgress(0);
+                return;
+            }
+
+
             CopyWorker.ReportProgress(5);
             Started = DateTime.Now;     //set the start time to the current time
             End = DateTime.Now.AddMinutes(Convert.ToInt32(xml.GetKey("TimeBetween")));  //add the time between value to the current time
@@ -251,7 +260,14 @@ namespace Backup_V3
             progressBar1.Value = e.ProgressPercentage;
 
             if (ShouldIStop)
+            {
+                StopBtn.Visible = false;
+                StopBtn.Enabled = false;
+
+                StartBTN.Visible = true;
+                StartBTN.Enabled = true;
                 CopyWorker.CancelAsync();
+            }
         }
 
         private void CopyWorker_Completed(object sender, RunWorkerCompletedEventArgs e)
