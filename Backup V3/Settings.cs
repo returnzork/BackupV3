@@ -7,18 +7,18 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-using returnzork.BackupV3_API.XmlReader;
+using returnzork.BackupV3_API.XmlSettings;
 
 namespace Backup_V3
 {
     public partial class Settings : Form
     {
-        XmlReader xml;
+        XmlSettings xml;
 
         public Settings()
         {
             InitializeComponent();
-            xml = new XmlReader(Environment.GetEnvironmentVariable("APPDATA") + "\\returnzork\\BackupV3\\Settings.config");
+            xml = new XmlSettings(Environment.GetEnvironmentVariable("APPDATA") + "\\returnzork\\BackupV3\\Settings.config");
         }
 
         private void button1_Click(object sender, EventArgs e)

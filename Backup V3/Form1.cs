@@ -12,7 +12,7 @@ using System.IO;
 using System.Reflection;
 
 using returnzork.BackupV3_API;
-using returnzork.BackupV3_API.XmlReader;
+using returnzork.BackupV3_API.XmlSettings;
 using returnzork.ErrorLogging;
 
 namespace Backup_V3
@@ -26,8 +26,9 @@ namespace Backup_V3
         string SettingsFolder;
         string PluginsFolder;
         string[] Imports = { "", "", "", "" };
-        XmlReader xml;
+        XmlSettings xml;
         ErrorLogging logger;
+
         bool ShouldIStop = false;
 
 
@@ -47,6 +48,10 @@ namespace Backup_V3
             StopBtn.Enabled = false;
             StopBtn.Visible = false;
 
+
+            xml = new XmlSettings(SettingsFolder + "Settings.config");
+
+
             Check();
             LoadPlugins();
 
@@ -56,7 +61,7 @@ namespace Backup_V3
 
             AddPluginInterface();
 
-            xml = new XmlReader(SettingsFolder + "Settings.config");
+
             logger = new ErrorLogging(SettingsFolder + "Error.log");
         }
 
@@ -86,6 +91,14 @@ namespace Backup_V3
         private void CheckForNewSettings()
         {
             //TODO add keys if they do not exist
+
+
+
+            //xml.array();
+
+            xml.GetAllKeys();
+
+
 
 
             /*string[] keys = xml.GetAllKeys();
