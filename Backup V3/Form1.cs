@@ -34,7 +34,7 @@ namespace Backup_V3
         string[] ExcludeFolders = { "", "", "" };
 
 
-        string[] Keys = { "WorldFrom", "WorldTo", "TimeBetween" };
+        string[] Keys = { "WorldFrom", "WorldTo", "TimeBetween", "ExcludeFolder1", "ExcludeFolder2", "ExcludeFolder3" };
 
 
 
@@ -247,8 +247,6 @@ namespace Backup_V3
             foreach (string DirCreate in Directory.GetDirectories(xml.GetKey("WorldFrom"), "*", SearchOption.AllDirectories))
             {
                 string DIR = DirCreate.Replace(xml.GetKey("WorldFrom"), xml.GetKey("WorldTo") + dt + "\\");
-
-
 
 
                 foreach (string s in ExcludeFolders)
