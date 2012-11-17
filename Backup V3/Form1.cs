@@ -195,7 +195,7 @@ namespace Backup_V3
             
 
 
-            UpdateImports();
+            UpdateImports(dt);
 
 
             foreach (var plugin in plugins)
@@ -205,11 +205,12 @@ namespace Backup_V3
             CopyWorker.ReportProgress(100);
         }
 
-        private void UpdateImports()
+        private void UpdateImports(string time)
         {
             Imports[0] = xml.GetKey("WorldFrom");
             Imports[1] = xml.GetKey("WorldTo");
             Imports[2] = xml.GetKey("TimeBetween");
+            Imports[3] = time;
         }
 
         private void CopyWorker_ProgressChange(object sender, ProgressChangedEventArgs e)
