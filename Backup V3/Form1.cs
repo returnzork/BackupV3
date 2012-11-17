@@ -175,6 +175,7 @@ namespace Backup_V3
 
         private void CopyWorker_DoWork(object sender, DoWorkEventArgs e)
         {
+            
             CopyWorker.ReportProgress(5);
             Started = DateTime.Now;     //set the start time to the current time
             End = DateTime.Now.AddMinutes(Convert.ToInt32(xml.GetKey("TimeBetween")));  //add the time between value to the current time
@@ -182,6 +183,9 @@ namespace Backup_V3
             {
                 System.Threading.Thread.Sleep(100);
                 Started = DateTime.Now;
+
+
+                CopyWorker.ReportProgress(6);
             }
 
 
@@ -245,6 +249,9 @@ namespace Backup_V3
         private void CopyWorker_ProgressChange(object sender, ProgressChangedEventArgs e)
         {
             progressBar1.Value = e.ProgressPercentage;
+
+            if (ShouldIStop)
+                CopyWorker.CancelAsync();
         }
 
         private void CopyWorker_Completed(object sender, RunWorkerCompletedEventArgs e)
