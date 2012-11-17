@@ -28,7 +28,7 @@ namespace Backup_V3
         string[] Imports = { "", "", "", "" };
         XmlReader xml;
         ErrorLogging logger;
-
+        bool ShouldIStop = false;
 
         public Form1()
         {
@@ -155,11 +155,15 @@ namespace Backup_V3
 
             StopBtn.Enabled = true;
             StopBtn.Visible = true;
+
+            ShouldIStop = false;
         }
 
 
         private void StopBtn_Click(object sender, EventArgs e)
         {
+            ShouldIStop = true;
+
             StartBTN.Enabled = true;
             StartBTN.Visible = true;
 
@@ -245,7 +249,7 @@ namespace Backup_V3
 
         private void CopyWorker_Completed(object sender, RunWorkerCompletedEventArgs e)
         {
-            if (!CopyWorker.IsBusy)
+            if (!CopyWorker.IsBusy && !ShouldIStop)
                 CopyWorker.RunWorkerAsync();
         }
     }
