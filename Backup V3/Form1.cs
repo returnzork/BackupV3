@@ -30,6 +30,11 @@ namespace Backup_V3
         ErrorLogging logger;
         bool ShouldIStop = false;
 
+
+        string[] Keys = { "WorldFrom", "WorldTo", "TimeBetween" };
+
+
+
         public Form1()
         {
             InitializeComponent();
@@ -69,10 +74,33 @@ namespace Backup_V3
             }
             if (!Directory.Exists(SettingsFolder + "PluginConfig"))
                 Directory.CreateDirectory(SettingsFolder + "PluginConfig");
+            else 
+                CheckForNewSettings();
             if (!Directory.Exists(SettingsFolder + "PluginLib"))
                 Directory.CreateDirectory(SettingsFolder + "PluginLib");
         }
-        
+
+        private void CheckForNewSettings()
+        {
+            //TODO add keys if they do not exist
+
+
+            /*string[] keys = xml.GetAllKeys();
+
+            foreach (string s in Keys)
+            {
+                if (!keys.Contains(s))
+                {
+                    //add key
+                    xml.add
+
+                }
+            }*/
+
+
+
+        }
+
         public void LoadPlugins()
         {
             try
