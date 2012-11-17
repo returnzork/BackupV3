@@ -37,12 +37,12 @@ namespace Backup_V3
 
             Check();
             LoadPlugins();
-            AddPluginInterface();
 
             foreach (var plugin in plugins)
-            {
                 plugin.Initialize();
-            }
+
+
+            AddPluginInterface();
 
             xml = new XmlReader(SettingsFolder + "Settings.config");
             logger = new ErrorLogging(SettingsFolder + "Error.log");
@@ -158,6 +158,8 @@ namespace Backup_V3
                 System.Threading.Thread.Sleep(100);
                 Started = DateTime.Now;
             }
+
+
             CopyWorker.ReportProgress(10);
 
 
@@ -191,6 +193,8 @@ namespace Backup_V3
                 string NewFile = file.Replace(xml.GetKey("WorldFrom"), xml.GetKey("WorldTo") + "\\" + dt + "\\");
                 File.Copy(file, NewFile);
             }
+
+
             CopyWorker.ReportProgress(75);
             
 
@@ -199,9 +203,9 @@ namespace Backup_V3
 
 
             foreach (var plugin in plugins)
-            {
                 plugin.Work(Imports);   //do work for each plugin
-            }
+
+
             CopyWorker.ReportProgress(100);
         }
 
@@ -220,7 +224,8 @@ namespace Backup_V3
 
         private void CopyWorker_Completed(object sender, RunWorkerCompletedEventArgs e)
         {
-            //TODO Restart background worker
+            if (!CopyWorker.IsBusy)
+                CopyWorker.RunWorkerAsync();
         }
     }
 }
