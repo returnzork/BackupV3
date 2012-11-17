@@ -29,11 +29,15 @@ namespace Backup_V3
         XmlReader xml;
         ErrorLogging logger;
 
+
         public Form1()
         {
             InitializeComponent();
             SettingsFolder = Environment.GetEnvironmentVariable("APPDATA") + "\\returnzork\\BackupV3\\";
             PluginsFolder = SettingsFolder + "Plugins\\";
+
+            StopBtn.Enabled = false;
+            StopBtn.Visible = false;
 
             Check();
             LoadPlugins();
@@ -144,6 +148,23 @@ namespace Backup_V3
             CopyWorker.ProgressChanged += new ProgressChangedEventHandler(CopyWorker_ProgressChange);
             CopyWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(CopyWorker_Completed);
             CopyWorker.RunWorkerAsync();
+
+
+            StartBTN.Visible = false;
+            StartBTN.Enabled = false;
+
+            StopBtn.Enabled = true;
+            StopBtn.Visible = true;
+        }
+
+
+        private void StopBtn_Click(object sender, EventArgs e)
+        {
+            StartBTN.Enabled = true;
+            StartBTN.Visible = true;
+
+            StopBtn.Visible = false;
+            StopBtn.Enabled = false;
         }
 
         DateTime Started, End;

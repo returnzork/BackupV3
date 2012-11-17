@@ -37,6 +37,7 @@
             this.noneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.StartBTN = new System.Windows.Forms.Button();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.StopBtn = new System.Windows.Forms.Button();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -109,11 +110,22 @@
             this.progressBar1.Size = new System.Drawing.Size(100, 23);
             this.progressBar1.TabIndex = 6;
             // 
+            // StopBtn
+            // 
+            this.StopBtn.Location = new System.Drawing.Point(302, 215);
+            this.StopBtn.Name = "StopBtn";
+            this.StopBtn.Size = new System.Drawing.Size(75, 23);
+            this.StopBtn.TabIndex = 7;
+            this.StopBtn.Text = "Stop";
+            this.StopBtn.UseVisualStyleBackColor = true;
+            this.StopBtn.Click += new System.EventHandler(this.StopBtn_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(389, 250);
+            this.Controls.Add(this.StopBtn);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.StartBTN);
             this.Controls.Add(this.toolStrip1);
@@ -139,6 +151,7 @@
         private System.Windows.Forms.ToolStripMenuItem noneToolStripMenuItem;
         private System.Windows.Forms.Button StartBTN;
         private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.Button StopBtn;
     }
 }
 
