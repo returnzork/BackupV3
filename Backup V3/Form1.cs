@@ -271,7 +271,7 @@ namespace Backup_V3
                 Directory.CreateDirectory(xml.GetKey("WorldTo"));
             }
 
-            string dt = DateTime.Now.ToString("MM.dd.yyyy  hh-mm-ss");
+            string dt = DateTime.Now.ToString("MM.dd.yyyy  hh-mm-ss tt");
 
             if (!Directory.Exists(xml.GetKey("WorldTo") + dt))
             {
