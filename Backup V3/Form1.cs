@@ -230,6 +230,7 @@ namespace Backup_V3
 
         private void CopyWorker_DoWork(object sender, DoWorkEventArgs e)
         {
+
             if (!Directory.Exists(xml.GetKey("WorldFrom")))
             {
                 MessageBox.Show("Directory \"" + xml.GetKey("WorldFrom") +"\" does not exist, cannot continue.");
@@ -246,7 +247,8 @@ namespace Backup_V3
                 System.Threading.Thread.Sleep(100);
                 Started = DateTime.Now;
 
-
+                if (CopyWorker.CancellationPending)
+                    break;
  
 
                 Invoke((MethodInvoker)delegate { TimeRemainingTextBox.Text = Convert.ToInt32(End.Minute) - Convert.ToInt32(Started.Minute) + " minutes left"; });
@@ -255,6 +257,9 @@ namespace Backup_V3
                 CopyWorker.ReportProgress(6);
             }
 
+
+            if (CopyWorker.CancellationPending)
+                return;
 
             UpdateExcludeFolders();
             CopyWorker.ReportProgress(10);
