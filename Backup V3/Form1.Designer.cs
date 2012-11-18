@@ -38,6 +38,7 @@
             this.StartBTN = new System.Windows.Forms.Button();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.StopBtn = new System.Windows.Forms.Button();
+            this.TimeRemainingTextBox = new System.Windows.Forms.TextBox();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -105,7 +106,7 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(129, 90);
+            this.progressBar1.Location = new System.Drawing.Point(129, 146);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(100, 23);
             this.progressBar1.TabIndex = 6;
@@ -120,11 +121,19 @@
             this.StopBtn.UseVisualStyleBackColor = true;
             this.StopBtn.Click += new System.EventHandler(this.StopBtn_Click);
             // 
+            // TimeRemainingTextBox
+            // 
+            this.TimeRemainingTextBox.Location = new System.Drawing.Point(129, 95);
+            this.TimeRemainingTextBox.Name = "TimeRemainingTextBox";
+            this.TimeRemainingTextBox.Size = new System.Drawing.Size(100, 20);
+            this.TimeRemainingTextBox.TabIndex = 8;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(389, 250);
+            this.Controls.Add(this.TimeRemainingTextBox);
             this.Controls.Add(this.StopBtn);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.StartBTN);
@@ -152,6 +161,7 @@
         private System.Windows.Forms.Button StartBTN;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Button StopBtn;
+        private System.Windows.Forms.TextBox TimeRemainingTextBox;
     }
 }
 

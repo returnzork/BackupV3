@@ -247,6 +247,11 @@ namespace Backup_V3
                 Started = DateTime.Now;
 
 
+ 
+
+                Invoke((MethodInvoker)delegate { TimeRemainingTextBox.Text = Convert.ToInt32(End.Minute) - Convert.ToInt32(Started.Minute) + " minutes left"; });
+
+
                 CopyWorker.ReportProgress(6);
             }
 
