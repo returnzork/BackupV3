@@ -80,10 +80,12 @@ namespace Backup_V3
                     fs.WriteByte((byte)stream.ReadByte());
                 fs.Close();
             }
+            else
+                CheckForNewSettings();
+
+
             if (!Directory.Exists(SettingsFolder + "PluginConfig"))
                 Directory.CreateDirectory(SettingsFolder + "PluginConfig");
-            else 
-                CheckForNewSettings();
             if (!Directory.Exists(SettingsFolder + "PluginLib"))
                 Directory.CreateDirectory(SettingsFolder + "PluginLib");
         }
@@ -92,29 +94,18 @@ namespace Backup_V3
         {
             //TODO add keys if they do not exist
 
-
-
-            //xml.array();
-
-            xml.GetAllKeys();
-
-
-
-
-            /*string[] keys = xml.GetAllKeys();
+            string[] AllKeys = xml.GetAllKeys();
 
             foreach (string s in Keys)
             {
-                if (!keys.Contains(s))
+                if (AllKeys.Contains(s))
+                    continue;
+                else
                 {
-                    //add key
-                    xml.add
-
+                    //Create Key
+                    xml.CreateKey(s);
                 }
-            }*/
-
-
-
+            }
         }
 
         public void LoadPlugins()
