@@ -207,6 +207,13 @@ namespace Backup_V3
             StopBtn.Enabled = false;
         }
 
+        private void UpdateExcludeFolders()
+        {
+            ExcludeFolders[0] = xml.GetKey("ExcludeFolder1");
+            ExcludeFolders[1] = xml.GetKey("ExcludeFolder2");
+            ExcludeFolders[2] = xml.GetKey("ExcludeFolder3");
+        }
+
         DateTime Started, End;
 
         private void CopyWorker_DoWork(object sender, DoWorkEventArgs e)
@@ -218,7 +225,6 @@ namespace Backup_V3
                 CopyWorker.ReportProgress(0);
                 return;
             }
-
 
             CopyWorker.ReportProgress(5);
             Started = DateTime.Now;     //set the start time to the current time
@@ -233,7 +239,9 @@ namespace Backup_V3
             }
 
 
+            UpdateExcludeFolders();
             CopyWorker.ReportProgress(10);
+
 
 
             if (!Directory.Exists(xml.GetKey("WorldTo")))

@@ -32,6 +32,10 @@ namespace Backup_V3
             WorldToBox.Text = xml.GetKey("WorldTo");
             WorldFromBox.Text = xml.GetKey("WorldFrom");
             TimeBetweenBox.Text = xml.GetKey("TimeBetween");
+
+            ExcludeBox1.Text = xml.GetKey("ExcludeFolder1");
+            ExcludeBox2.Text = xml.GetKey("ExcludeFolder2");
+            ExcludeBox3.Text = xml.GetKey("ExcludeFolder3");
         }
 
         private void SaveBTN_Click(object sender, EventArgs e)
@@ -39,6 +43,10 @@ namespace Backup_V3
             xml.SaveKey("WorldTo", WorldToBox.Text);
             xml.SaveKey("WorldFrom", WorldFromBox.Text);
             xml.SaveKey("TimeBetween", TimeBetweenBox.Text);
+
+            xml.SaveKey("ExcludeFolder1", ExcludeBox1.Text);
+            xml.SaveKey("ExcludeFolder2", ExcludeBox2.Text);
+            xml.SaveKey("ExcludeFolder3", ExcludeBox3.Text);
         }
     }
 }
