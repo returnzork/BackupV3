@@ -32,10 +32,10 @@ namespace Backup_V3
         bool ShouldIStop = false;
 
 
-        string[] ExcludeFolders = { "", "", "" };
+        string[] ExcludeFolders = { };
 
 
-        string[] Keys = { "WorldFrom", "WorldTo", "TimeBetween", "ExcludeFolder1", "ExcludeFolder2", "ExcludeFolder3" };
+        string[] Keys = { "WorldFrom", "WorldTo", "TimeBetween", "ExcludeFolder1", "ExcludeFolder2", "ExcludeFolder3", "PlayFinishedSound" };
 
 
 
@@ -209,9 +209,21 @@ namespace Backup_V3
 
         private void UpdateExcludeFolders()
         {
-            ExcludeFolders[0] = xml.GetKey("ExcludeFolder1");
-            ExcludeFolders[1] = xml.GetKey("ExcludeFolder2");
-            ExcludeFolders[2] = xml.GetKey("ExcludeFolder3");
+            if (xml.GetKey("ExcludeFolder1") != "")
+            {
+                Array.Resize(ref ExcludeFolders, ExcludeFolders.Length + 1);
+                ExcludeFolders[ExcludeFolders.Length - 1] = xml.GetKey("ExcludeFolder1");
+            }
+            if (xml.GetKey("ExcludeFolder2") != "")
+            {
+                Array.Resize(ref ExcludeFolders, ExcludeFolders.Length + 1);
+                ExcludeFolders[ExcludeFolders.Length - 1] = xml.GetKey("ExcludeFolder2");
+            }
+            if(xml.GetKey("ExcludeFolder3") != "")
+            {
+                Array.Resize(ref ExcludeFolders, ExcludeFolders.Length + 1);
+                ExcludeFolders[ExcludeFolders.Length - 1] = xml.GetKey("ExcludeFolder3");
+            }
         }
 
         DateTime Started, End;
@@ -259,13 +271,19 @@ namespace Backup_V3
             foreach (string DirCreate in Directory.GetDirectories(xml.GetKey("WorldFrom"), "*", SearchOption.AllDirectories))
             {
                 string DIR = DirCreate.Replace(xml.GetKey("WorldFrom"), xml.GetKey("WorldTo") + dt + "\\");
-
+                bool ShouldIContinue = true;
 
                 foreach (string s in ExcludeFolders)
                 {
                     if (DirCreate.Contains(s))
+                    {
+                        ShouldIContinue = false;
                         continue;
+                    }
                 }
+
+                if (!ShouldIContinue)
+                    continue;
 
                 Directory.CreateDirectory(DIR);
 
@@ -295,6 +313,11 @@ namespace Backup_V3
 
 
             CopyWorker.ReportProgress(100);
+
+
+            if(xml.GetKey("PlayFinishedSound") == "yes")
+                System.Media.SystemSounds.Asterisk.Play();
+
         }
 
         private void UpdateImports(string time)

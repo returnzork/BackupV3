@@ -36,6 +36,9 @@ namespace Backup_V3
             ExcludeBox1.Text = xml.GetKey("ExcludeFolder1");
             ExcludeBox2.Text = xml.GetKey("ExcludeFolder2");
             ExcludeBox3.Text = xml.GetKey("ExcludeFolder3");
+
+            if (xml.GetKey("PlayFinishedSound") == "yes")
+                FinishedSoundCheckBox.Checked = true;
         }
 
         private void SaveBTN_Click(object sender, EventArgs e)
@@ -47,6 +50,11 @@ namespace Backup_V3
             xml.SaveKey("ExcludeFolder1", ExcludeBox1.Text);
             xml.SaveKey("ExcludeFolder2", ExcludeBox2.Text);
             xml.SaveKey("ExcludeFolder3", ExcludeBox3.Text);
+
+            if (FinishedSoundCheckBox.Checked)
+                xml.SaveKey("PlayFinishedSound", "yes");
+            else
+                xml.SaveKey("PlayFinishedSound", "no");
         }
     }
 }

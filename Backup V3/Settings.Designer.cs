@@ -43,6 +43,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.FinishedSoundCheckBox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // PluginsBTN
@@ -161,11 +162,22 @@
             this.label4.TabIndex = 13;
             this.label4.Text = "Exclude folder 1";
             // 
+            // FinishedSoundCheckBox
+            // 
+            this.FinishedSoundCheckBox.AutoSize = true;
+            this.FinishedSoundCheckBox.Location = new System.Drawing.Point(87, 218);
+            this.FinishedSoundCheckBox.Name = "FinishedSoundCheckBox";
+            this.FinishedSoundCheckBox.Size = new System.Drawing.Size(123, 17);
+            this.FinishedSoundCheckBox.TabIndex = 14;
+            this.FinishedSoundCheckBox.Text = "Play finished sound?";
+            this.FinishedSoundCheckBox.UseVisualStyleBackColor = true;
+            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(281, 241);
+            this.ClientSize = new System.Drawing.Size(281, 247);
+            this.Controls.Add(this.FinishedSoundCheckBox);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -205,5 +217,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.CheckBox FinishedSoundCheckBox;
     }
 }
