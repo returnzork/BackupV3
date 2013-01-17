@@ -1,4 +1,4 @@
-﻿namespace Backup_V3
+﻿namespace returnzork.Backup_V3
 {
     partial class Plugins
     {

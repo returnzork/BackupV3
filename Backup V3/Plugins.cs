@@ -11,7 +11,7 @@ using System.ComponentModel.Composition.Hosting;
 
 using returnzork.BackupV3_API;
 
-namespace Backup_V3
+namespace returnzork.Backup_V3
 {
     public partial class Plugins : Form
     {

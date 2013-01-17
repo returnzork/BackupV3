@@ -1,4 +1,4 @@
-﻿namespace Backup_V3
+﻿namespace returnzork.Backup_V3
 {
     partial class Settings
     {
@@ -44,6 +44,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.FinishedSoundCheckBox = new System.Windows.Forms.CheckBox();
+            this.WorldOnlyCheckBox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // PluginsBTN
@@ -165,18 +166,29 @@
             // FinishedSoundCheckBox
             // 
             this.FinishedSoundCheckBox.AutoSize = true;
-            this.FinishedSoundCheckBox.Location = new System.Drawing.Point(87, 218);
+            this.FinishedSoundCheckBox.Location = new System.Drawing.Point(87, 230);
             this.FinishedSoundCheckBox.Name = "FinishedSoundCheckBox";
             this.FinishedSoundCheckBox.Size = new System.Drawing.Size(123, 17);
             this.FinishedSoundCheckBox.TabIndex = 14;
             this.FinishedSoundCheckBox.Text = "Play finished sound?";
             this.FinishedSoundCheckBox.UseVisualStyleBackColor = true;
             // 
+            // WorldOnlyCheckBox
+            // 
+            this.WorldOnlyCheckBox.AutoSize = true;
+            this.WorldOnlyCheckBox.Location = new System.Drawing.Point(87, 209);
+            this.WorldOnlyCheckBox.Name = "WorldOnlyCheckBox";
+            this.WorldOnlyCheckBox.Size = new System.Drawing.Size(119, 17);
+            this.WorldOnlyCheckBox.TabIndex = 15;
+            this.WorldOnlyCheckBox.Text = "Backup world only?";
+            this.WorldOnlyCheckBox.UseVisualStyleBackColor = true;
+            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(281, 247);
+            this.Controls.Add(this.WorldOnlyCheckBox);
             this.Controls.Add(this.FinishedSoundCheckBox);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -218,5 +230,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.CheckBox FinishedSoundCheckBox;
+        private System.Windows.Forms.CheckBox WorldOnlyCheckBox;
     }
 }

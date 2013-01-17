@@ -6,11 +6,11 @@ using System.IO;
 
 namespace returnzork.ErrorLogging
 {
-    class ErrorLogging
+    class ErrorLogger
     {
         string LogFile;
 
-        public ErrorLogging(string LogFile)
+        public ErrorLogger(string LogFile)
         {
             this.LogFile = LogFile;
             if (!File.Exists(LogFile))
