@@ -12,7 +12,7 @@ using System.IO;
 using System.Reflection;
 
 using returnzork.BackupV3_API;
-using returnzork.BackupV3_API.XmlSettings;
+using returnzork.XmlSettings;
 using returnzork.ErrorLogging;
 
 namespace returnzork.Backup_V3
@@ -25,7 +25,7 @@ namespace returnzork.Backup_V3
         string SettingsFolder;
         string PluginsFolder;
         public string[] Imports = { "", "", "", "" };
-        XmlSettings xml;
+        XmlSettings.XmlSettings xml;
 
         ErrorLogger logger;
 
@@ -53,7 +53,7 @@ namespace returnzork.Backup_V3
             StopBtn.Visible = false;
 
 
-            xml = new XmlSettings(SettingsFolder + "Settings.config");
+            xml = new XmlSettings.XmlSettings(SettingsFolder + "Settings.config");
 
 
             logger = new ErrorLogger(SettingsFolder + "Error.log");
