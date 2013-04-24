@@ -12,8 +12,8 @@ using System.IO;
 using System.Reflection;
 
 using returnzork.BackupV3_API;
-using returnzork.XmlSettings;
 using returnzork.ErrorLogging;
+
 
 namespace returnzork.Backup_V3
 {
@@ -25,7 +25,6 @@ namespace returnzork.Backup_V3
         string SettingsFolder;
         string PluginsFolder;
         public string[] Imports = { "", "", "", "" };
-        XmlSettings.XmlSettings xml;
 
         ErrorLogger logger;
 
@@ -37,6 +36,9 @@ namespace returnzork.Backup_V3
 
         string[] Keys = { "WorldFrom", "WorldTo", "TimeBetween", "ExcludeFolder1", "ExcludeFolder2", "ExcludeFolder3", "PlayFinishedSound", "WorldOnly" };
 
+
+
+        Properties.MainSettings ms = new Properties.MainSettings();
 
 
         public Form1()
@@ -51,10 +53,6 @@ namespace returnzork.Backup_V3
 
             StopBtn.Enabled = false;
             StopBtn.Visible = false;
-
-
-            xml = new XmlSettings.XmlSettings(SettingsFolder + "Settings.config");
-
 
             logger = new ErrorLogger(SettingsFolder + "Error.log");
 
@@ -75,17 +73,6 @@ namespace returnzork.Backup_V3
                 Directory.CreateDirectory(SettingsFolder);
                 Directory.CreateDirectory(PluginsFolder);
             }
-            if(!File.Exists(SettingsFolder + "Settings.config"))
-            {
-                Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("returnzork.Backup_V3.Settings.config");
-                FileStream fs = new FileStream(SettingsFolder + "Settings.config", FileMode.CreateNew);
-                for (int i = 0; i < stream.Length; i++)
-                    fs.WriteByte((byte)stream.ReadByte());
-                fs.Close();
-            }
-            else
-                CheckForNewSettings();
-
 
             if (!Directory.Exists(SettingsFolder + "PluginConfig"))
                 Directory.CreateDirectory(SettingsFolder + "PluginConfig");
@@ -93,23 +80,6 @@ namespace returnzork.Backup_V3
                 Directory.CreateDirectory(SettingsFolder + "PluginLib");
         }
 
-        private void CheckForNewSettings()
-        {
-            //TODO add keys if they do not exist
-
-            string[] AllKeys = xml.GetAllKeys();
-
-            foreach (string s in Keys)
-            {
-                if (AllKeys.Contains(s))
-                    continue;
-                else
-                {
-                    //Create Key
-                    xml.CreateKey(s);
-                }
-            }
-        }
 
         public void LoadPlugins()
         {
@@ -217,20 +187,21 @@ namespace returnzork.Backup_V3
 
         private void UpdateExcludeFolders()
         {
-            if (xml.GetKey("ExcludeFolder1") != "")
+
+            if (ms.ExcludeFolder1 != "")
             {
                 Array.Resize(ref ExcludeFolders, ExcludeFolders.Length + 1);
-                ExcludeFolders[ExcludeFolders.Length - 1] = xml.GetKey("ExcludeFolder1");
+                ExcludeFolders[ExcludeFolders.Length - 1] = ms.ExcludeFolder1;
             }
-            if (xml.GetKey("ExcludeFolder2") != "")
+            if (ms.ExcludeFolder2 != "")
             {
                 Array.Resize(ref ExcludeFolders, ExcludeFolders.Length + 1);
-                ExcludeFolders[ExcludeFolders.Length - 1] = xml.GetKey("ExcludeFolder2");
+                ExcludeFolders[ExcludeFolders.Length - 1] = ms.ExcludeFolder2;
             }
-            if(xml.GetKey("ExcludeFolder3") != "")
+            if(ms.ExcludeFolder3 != "")
             {
                 Array.Resize(ref ExcludeFolders, ExcludeFolders.Length + 1);
-                ExcludeFolders[ExcludeFolders.Length - 1] = xml.GetKey("ExcludeFolder3");
+                ExcludeFolders[ExcludeFolders.Length - 1] = ms.ExcludeFolder3;
             }
         }
 
@@ -239,9 +210,9 @@ namespace returnzork.Backup_V3
         private void CopyWorker_DoWork(object sender, DoWorkEventArgs e)
         {
 
-            if (!Directory.Exists(xml.GetKey("WorldFrom")))
+            if(!Directory.Exists(ms.WorldFrom))
             {
-                MessageBox.Show("Directory \"" + xml.GetKey("WorldFrom") +"\" does not exist, cannot continue.");
+                MessageBox.Show("Directory \"" + ms.WorldFrom + "\" does not exist, cannot continue.");
                 logger.MakeLog("Directory does not exist");
                 ShouldIStop = true;
                 CopyWorker.ReportProgress(0);
@@ -250,7 +221,7 @@ namespace returnzork.Backup_V3
 
             CopyWorker.ReportProgress(5);
             Started = DateTime.Now;     //set the start time to the current time
-            End = DateTime.Now.AddMinutes(Convert.ToInt32(xml.GetKey("TimeBetween")));  //add the time between value to the current time
+            End = DateTime.Now.AddMinutes(ms.TimeBetween);  //add the time between value to the current time
             while(Started < End)    //while when it started is less than the end time
             {
                 System.Threading.Thread.Sleep(100);
@@ -263,9 +234,9 @@ namespace returnzork.Backup_V3
                 {
                     int ne = Math.Abs(Convert.ToInt32(End.Minute) - Convert.ToInt32(Started.Minute));                   
 
-                    ne = Convert.ToInt32(xml.GetKey("TimeBetween")) - ne;
+                    ne = ms.TimeBetween - ne;
 
-                    int newtime = Convert.ToInt32(xml.GetKey("TimeBetween")) + ne;
+                    int newtime = ms.TimeBetween + ne;
 
 
                     Invoke((MethodInvoker)delegate { TimeRemainingTextBox.Text = newtime + " minutes remaining"; });
@@ -286,26 +257,26 @@ namespace returnzork.Backup_V3
 
 
 
-            if (!Directory.Exists(xml.GetKey("WorldTo")))
+            if (!Directory.Exists(ms.WorldTo))
             {
-                Directory.CreateDirectory(xml.GetKey("WorldTo"));
+                Directory.CreateDirectory(ms.WorldTo);
             }
 
             string dt = DateTime.Now.ToString("MM.dd.yyyy  hh-mm-ss tt");
 
-            if (!Directory.Exists(xml.GetKey("WorldTo") + dt))
+            if (!Directory.Exists(ms.WorldTo + dt))
             {
-                Directory.CreateDirectory(xml.GetKey("WorldTo") + dt);
+                Directory.CreateDirectory(ms.WorldTo + dt);
             }
 
 
-            string WorldOnly = xml.GetKey("WorldOnly");
+            bool WorldOnly = ms.WorldOnly;
 
-            if (WorldOnly == "false")
+            if (!WorldOnly)
             {
-                foreach (string DirCreate in Directory.GetDirectories(xml.GetKey("WorldFrom"), "*", SearchOption.AllDirectories))
+                foreach (string DirCreate in Directory.GetDirectories(ms.WorldFrom, "*", SearchOption.AllDirectories))
                 {
-                    string DIR = DirCreate.Replace(xml.GetKey("WorldFrom"), xml.GetKey("WorldTo") + dt + "\\");
+                    string DIR = DirCreate.Replace(ms.WorldFrom, ms.WorldTo + dt + "\\");
                     bool ShouldIContinue = true;
 
                     foreach (string s in ExcludeFolders)
@@ -324,34 +295,34 @@ namespace returnzork.Backup_V3
 
                     foreach (string file in Directory.GetFiles(DirCreate))
                     {
-                        string NewFile = file.Replace(xml.GetKey("WorldFrom"), xml.GetKey("WorldTo") + "\\" + dt + "\\");
+                        string NewFile = file.Replace(ms.WorldFrom, ms.WorldTo + "\\" + dt + "\\");
                         File.Copy(file, NewFile);
                     }
                 }
                 CopyWorker.ReportProgress(35);
-                foreach (string file in Directory.GetFiles(xml.GetKey("WorldFrom")))
+                foreach (string file in Directory.GetFiles(ms.WorldFrom))
                 {
-                    string NewFile = file.Replace(xml.GetKey("WorldFrom"), xml.GetKey("WorldTo") + "\\" + dt + "\\");
+                    string NewFile = file.Replace(ms.WorldFrom, ms.WorldTo + "\\" + dt + "\\");
                     File.Copy(file, NewFile);
                 }
             }
             else
             {
-                foreach (string dir in Directory.GetDirectories(xml.GetKey("WorldFrom") + "\\world\\", "*", SearchOption.AllDirectories))
+                foreach (string dir in Directory.GetDirectories(ms.WorldFrom + "\\world\\", "*", SearchOption.AllDirectories))
                 {
-                    string DIR = dir.Replace(xml.GetKey("WorldFrom"), xml.GetKey("WorldTo") + dt + "\\");
+                    string DIR = dir.Replace(ms.WorldFrom, ms.WorldTo + dt + "\\");
                     Directory.CreateDirectory(DIR);
 
                     foreach (string file in Directory.GetFiles(dir))
                     {
-                        string NewFile = file.Replace(xml.GetKey("WorldFrom") + "\\world\\", xml.GetKey("WorldTo") + "\\" + dt + "\\world\\");
+                        string NewFile = file.Replace(ms.WorldFrom + "\\world\\", ms.WorldTo + "\\" + dt + "\\world\\");
                         File.Copy(file, NewFile);
                     }
                 }
 
-                foreach (string file in Directory.GetFiles(xml.GetKey("WorldFrom") + "\\world\\"))
+                foreach (string file in Directory.GetFiles(ms.WorldFrom + "\\world\\"))
                 {
-                    string NewFile = file.Replace(xml.GetKey("WorldFrom") + "\\world\\", xml.GetKey("WorldTo") + dt + "\\world\\");
+                    string NewFile = file.Replace(ms.WorldFrom + "\\world\\", ms.WorldTo + dt + "\\world\\");
                     File.Copy(file, NewFile);
                 }
             }
@@ -367,7 +338,7 @@ namespace returnzork.Backup_V3
             CopyWorker.ReportProgress(100);
 
 
-            if(xml.GetKey("PlayFinishedSound") == "yes")
+            if(ms.PlayFinishedSound)
                 System.Media.SystemSounds.Asterisk.Play();
 
         }
@@ -382,9 +353,9 @@ namespace returnzork.Backup_V3
 
         private void UpdateImports(string time)
         {
-            Imports[0] = xml.GetKey("WorldFrom");
-            Imports[1] = xml.GetKey("WorldTo");
-            Imports[2] = xml.GetKey("TimeBetween");
+            Imports[0] = ms.WorldFrom;
+            Imports[1] = ms.WorldTo;
+            Imports[2] = Convert.ToString(ms.TimeBetween);
             Imports[3] = time;
         }
 
