@@ -7,21 +7,19 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-using returnzork.XmlSettings;
 
 namespace returnzork.Backup_V3
 {
     public partial class Settings : Form
     {
 
-        XmlSettings.XmlSettings xml;
+        Properties.MainSettings ms = new Properties.MainSettings();
 
         //XmlSettings xml;
 
         public Settings()
         {
             InitializeComponent();
-            xml = new XmlSettings.XmlSettings(Environment.GetEnvironmentVariable("APPDATA") + "\\returnzork\\BackupV3\\Settings.config");
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -32,40 +30,42 @@ namespace returnzork.Backup_V3
 
         private void Settings_Load(object sender, EventArgs e)
         {
-            WorldToBox.Text = xml.GetKey("WorldTo");
-            WorldFromBox.Text = xml.GetKey("WorldFrom");
-            TimeBetweenBox.Text = xml.GetKey("TimeBetween");
+            WorldToBox.Text = ms.WorldTo;
 
-            ExcludeBox1.Text = xml.GetKey("ExcludeFolder1");
-            ExcludeBox2.Text = xml.GetKey("ExcludeFolder2");
-            ExcludeBox3.Text = xml.GetKey("ExcludeFolder3");
+            WorldFromBox.Text = ms.WorldFrom;
+            TimeBetweenBox.Text = Convert.ToString(ms.TimeBetween);
 
-            if (xml.GetKey("PlayFinishedSound") == "true")
+            ExcludeBox1.Text = ms.ExcludeFolder1;
+            ExcludeBox2.Text = ms.ExcludeFolder2;
+            ExcludeBox3.Text = ms.ExcludeFolder3;
+
+            if(ms.PlayFinishedSound)
                 FinishedSoundCheckBox.Checked = true;
 
-            if (xml.GetKey("WorldOnly") == "true")
+            if (ms.WorldOnly)
                 WorldOnlyCheckBox.Checked = true;
         }
 
         private void SaveBTN_Click(object sender, EventArgs e)
         {
-            xml.SaveKey("WorldTo", WorldToBox.Text);
-            xml.SaveKey("WorldFrom", WorldFromBox.Text);
-            xml.SaveKey("TimeBetween", TimeBetweenBox.Text);
+            ms.WorldTo = WorldToBox.Text;
+            ms.WorldFrom = WorldFromBox.Text;
+            ms.TimeBetween = Convert.ToInt32(TimeBetweenBox.Text);
 
-            xml.SaveKey("ExcludeFolder1", ExcludeBox1.Text);
-            xml.SaveKey("ExcludeFolder2", ExcludeBox2.Text);
-            xml.SaveKey("ExcludeFolder3", ExcludeBox3.Text);
+            ms.ExcludeFolder1 = ExcludeBox1.Text;
+            ms.ExcludeFolder2 = ExcludeBox2.Text;
+            ms.ExcludeFolder3 = ExcludeBox2.Text;
+
 
             if (FinishedSoundCheckBox.Checked)
-                xml.SaveKey("PlayFinishedSound", "true");
+                ms.PlayFinishedSound = true;
             else
-                xml.SaveKey("PlayFinishedSound", "false");
+                ms.PlayFinishedSound = false;
 
             if (WorldOnlyCheckBox.Checked)
-                xml.SaveKey("WorldOnly", "true");
+                ms.WorldOnly = true;
             else
-                xml.SaveKey("WorldOnly", "false");
+                ms.WorldOnly = false;
         }
     }
 }
