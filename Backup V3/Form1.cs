@@ -34,10 +34,6 @@ namespace returnzork.Backup_V3
         string[] ExcludeFolders = { };
 
 
-        string[] Keys = { "WorldFrom", "WorldTo", "TimeBetween", "ExcludeFolder1", "ExcludeFolder2", "ExcludeFolder3", "PlayFinishedSound", "WorldOnly" };
-
-
-
         Properties.MainSettings ms = new Properties.MainSettings();
 
 
@@ -81,7 +77,7 @@ namespace returnzork.Backup_V3
         }
 
 
-        public void LoadPlugins()
+        private void LoadPlugins()
         {
             try
             {
