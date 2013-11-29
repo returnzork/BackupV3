@@ -97,6 +97,11 @@ namespace returnzork.Backup_V3
             catch (ReflectionTypeLoadException rtle)
             {
                 logger.MakeLog(rtle);
+                Exception[] exceptions = rtle.LoaderExceptions;
+                foreach (var EX in exceptions)
+                {
+                    logger.MakeLog(EX);
+                }
                 MessageBox.Show("There was an error with loading one or more plugins.\nThe program will now exit.");
                 Environment.Exit(2);
             }
