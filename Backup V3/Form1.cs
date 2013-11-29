@@ -62,6 +62,11 @@ namespace returnzork.Backup_V3
             AddPluginInterface();
         }
 
+
+
+        /// <summary>
+        /// Checks if the folders that need to exist actually exist
+        /// </summary>
         private void Check()
         {
             if (!Directory.Exists(SettingsFolder))
@@ -76,7 +81,9 @@ namespace returnzork.Backup_V3
                 Directory.CreateDirectory(SettingsFolder + "PluginLib");
         }
 
-
+        /// <summary>
+        /// Load all the plugins
+        /// </summary>
         private void LoadPlugins()
         {
             try
@@ -85,14 +92,6 @@ namespace returnzork.Backup_V3
                 catalog.Catalogs.Add(new DirectoryCatalog(PluginsFolder));
                 CompositionContainer container = new CompositionContainer(catalog);
                 container.ComposeParts(this);
-            }
-            catch (FileNotFoundException fnfex)
-            {
-                logger.MakeLog(fnfex);
-            }
-            catch (CompositionException cex)
-            {
-                logger.MakeLog(cex);
             }
             catch (Exception ex)
             {
@@ -107,6 +106,7 @@ namespace returnzork.Backup_V3
 #endif
         }
 
+       
         private void SettingsBTN_click(object sender, EventArgs e)
         {
             Settings set = new Settings();
@@ -115,6 +115,9 @@ namespace returnzork.Backup_V3
 
         bool isAdding;
 
+        /// <summary>
+        /// Add all plugin interfaces to the toolstrip
+        /// </summary>
         private void AddPluginInterface()
         {
             pluginsToolStripMenuItem.DropDown.Items.Clear();
@@ -125,13 +128,11 @@ namespace returnzork.Backup_V3
                 pluginsToolStripMenuItem.DropDown.Items.Add(plugin.Name());
             }
             isAdding = false;
-
-
-
-            
-
         }
 
+        /// <summary>
+        /// Toolstrip item clicked
+        /// </summary>
         private void ToolStripClick(object sender, ToolStripItemClickedEventArgs e)
         {
             if (!isAdding)
@@ -150,6 +151,9 @@ namespace returnzork.Backup_V3
         BackgroundWorker CopyWorker = new BackgroundWorker();
 
 
+        /// <summary>
+        /// Start the backup worker
+        /// </summary>
         private void StartBTN_Click(object sender, EventArgs e)
         {
             CopyWorker.DoWork += new  DoWorkEventHandler(CopyWorker_DoWork);
@@ -169,7 +173,9 @@ namespace returnzork.Backup_V3
             ShouldIStop = false;
         }
 
-
+        /// <summary>
+        /// Stop the backup worker
+        /// </summary>
         private void StopBtn_Click(object sender, EventArgs e)
         {
             ShouldIStop = true;
@@ -181,9 +187,11 @@ namespace returnzork.Backup_V3
             StopBtn.Enabled = false;
         }
 
+        /// <summary>
+        /// Checks what folders are to be skipped in the backup
+        /// </summary>
         private void UpdateExcludeFolders()
         {
-
             if (ms.ExcludeFolder1 != "")
             {
                 Array.Resize(ref ExcludeFolders, ExcludeFolders.Length + 1);
@@ -203,9 +211,11 @@ namespace returnzork.Backup_V3
 
         DateTime Started, End;
 
+        /// <summary>
+        /// The actual working part of the backup
+        /// </summary>
         private void CopyWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-
             if(!Directory.Exists(ms.WorldFrom))
             {
                 MessageBox.Show("Directory \"" + ms.WorldFrom + "\" does not exist, cannot continue.");
@@ -339,6 +349,9 @@ namespace returnzork.Backup_V3
 
         }
 
+        /// <summary>
+        /// Executes the plugins
+        /// </summary>
         private void PluginWork()
         {
             for (int i = 0; i < 10; i++)    //allows up to 10 priority numbers
@@ -347,6 +360,10 @@ namespace returnzork.Backup_V3
                         plugin.Work(Imports);
         }
 
+        /// <summary>
+        /// Update what is imported to the plugins
+        /// </summary>
+        /// <param name="time">Current date and time</param>
         private void UpdateImports(string time)
         {
             Imports[0] = ms.WorldFrom;

@@ -22,7 +22,7 @@ namespace returnzork.Backup_V3
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void PluginBTN_Click(object sender, EventArgs e)
         {
             Plugins pl = new Plugins();
             pl.Show();

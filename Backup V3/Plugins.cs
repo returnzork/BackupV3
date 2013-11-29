@@ -26,6 +26,9 @@ namespace returnzork.Backup_V3
             PopulatePluginsBox();
         }
 
+        /// <summary>
+        /// Add all plugins to the box
+        /// </summary>
         void PopulatePluginsBox()
         {
             AggregateCatalog catalog = new AggregateCatalog();

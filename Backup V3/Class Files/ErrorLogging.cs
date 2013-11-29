@@ -19,6 +19,10 @@ namespace returnzork.ErrorLogging
             }
         }
 
+        /// <summary>
+        /// Add to the log file
+        /// </summary>
+        /// <param name="ex">Exception that occurred</param>
         public void MakeLog(Exception ex)
         {
             FileStream stream = new FileStream(LogFile, FileMode.Append);   //create a filestream to open the log
@@ -31,6 +35,10 @@ namespace returnzork.ErrorLogging
             stream.Close();     //close the filestream so the file is not in use
         }
 
+        /// <summary>
+        /// Add to the log file
+        /// </summary>
+        /// <param name="error">String of error that occurred</param>
         public void MakeLog(string error)
         {
             FileStream stream = new FileStream(LogFile, FileMode.Append);

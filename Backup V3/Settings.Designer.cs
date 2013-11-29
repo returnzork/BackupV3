@@ -55,7 +55,7 @@ namespace returnzork.Backup_V3
             this.PluginsBTN.TabIndex = 0;
             this.PluginsBTN.Text = "Plugins";
             this.PluginsBTN.UseVisualStyleBackColor = true;
-            this.PluginsBTN.Click += new System.EventHandler(this.button1_Click);
+            this.PluginsBTN.Click += new System.EventHandler(this.PluginBTN_Click);
             // 
             // WorldToBox
             // 
