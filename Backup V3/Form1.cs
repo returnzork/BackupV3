@@ -55,6 +55,7 @@ namespace returnzork.Backup_V3
             Check();
             LoadPlugins();
 
+
             foreach (var plugin in plugins)
                 plugin.Initialize();
 
@@ -93,15 +94,24 @@ namespace returnzork.Backup_V3
                 CompositionContainer container = new CompositionContainer(catalog);
                 container.ComposeParts(this);
             }
+            catch (ReflectionTypeLoadException rtle)
+            {
+                logger.MakeLog(rtle);
+                MessageBox.Show("There was an error with loading one or more plugins.\nThe program will now exit.");
+                Environment.Exit(2);
+            }
             catch (Exception ex)
             {
                 logger.MakeLog(ex);
             }
 
 #if DEBUG
-            foreach (var plugin in plugins)
+            if (plugins != null)
             {
-                MessageBox.Show(plugin.Name() + " by " + plugin.Author() + " has loaded."); 
+                foreach (var plugin in plugins)
+                {
+                    MessageBox.Show(plugin.Name() + " by " + plugin.Author() + " has loaded.");
+                }
             }
 #endif
         }
