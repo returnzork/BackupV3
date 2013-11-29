@@ -66,6 +66,8 @@ namespace returnzork.Backup_V3
                 ms.WorldOnly = true;
             else
                 ms.WorldOnly = false;
+
+            ms.Save();
         }
     }
 }
