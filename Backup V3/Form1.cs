@@ -273,6 +273,10 @@ namespace returnzork.Backup_V3
             if (CopyWorker.CancellationPending)
                 return;
 
+
+
+            PluginWork(true);
+
             UpdateExcludeFolders();
             CopyWorker.ReportProgress(10);
 
@@ -367,12 +371,41 @@ namespace returnzork.Backup_V3
         /// <summary>
         /// Executes the plugins
         /// </summary>
-        private void PluginWork()
+        /// <param name="before">set to true when running before the backup</param>
+        private void PluginWork(bool before = false)
         {
-            for (int i = 0; i < 10; i++)    //allows up to 10 priority numbers
-                foreach (var plugin in plugins)
-                    if (plugin.Priority() == i) //checks if the plugin has this priority number, and if it does run it.
-                        plugin.Work(Imports);
+            if (before)
+            {
+                for (int i = 0; i < 10; i++)
+                {
+                    foreach (var plugin in plugins)
+                    {
+                        if (plugin.RunTime != TimeToRun.After)
+                        {
+                            if (plugin.Priority() == i)
+                            {
+                                plugin.Work(Imports);
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < 10; i++)    //allows up to 10 priority numbers
+                {
+                    foreach (var plugin in plugins)
+                    {
+                        if (plugin.RunTime != TimeToRun.Before)
+                        {
+                            if (plugin.Priority() == i) //checks if the plugin has this priority number, and if it does run it.
+                            {
+                                plugin.Work(Imports);
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         /// <summary>
