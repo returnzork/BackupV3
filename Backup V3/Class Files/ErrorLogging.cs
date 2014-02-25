@@ -15,6 +15,12 @@ namespace returnzork.ErrorLogging
             this.LogFile = LogFile;
             if (!File.Exists(LogFile))
             {
+                if(!Directory.Exists)
+                {
+                    LogFile = LogFile.Replace("Error.log", "")
+                    Directory.CreateDirectory(LogFile);
+                    LogFile += "Error.log";
+                }
                 File.Create(LogFile);
             }
         }
