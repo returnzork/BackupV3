@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -44,13 +44,12 @@ namespace returnzork.Backup_V3
 
         private void Form_Load(object sender, EventArgs e)
         {
-            SettingsFolder = Environment.GetEnvironmentVariable("APPDATA") + "\\returnzork\\BackupV3\\";
-            PluginsFolder = SettingsFolder + "Plugins\\";
 
+            setVariables();
             StopBtn.Enabled = false;
             StopBtn.Visible = false;
 
-            logger = new ErrorLogger(SettingsFolder + "Error.log");
+            
 
             Check();
             LoadPlugins();
@@ -63,13 +62,21 @@ namespace returnzork.Backup_V3
             AddPluginInterface();
         }
 
+        private void setVariables()
+        {
+            SettingsFolder = Environment.GetEnvironmentVariable("APPDATA") + "\\returnzork\\BackupV3\\";
+            PluginsFolder = SettingsFolder + "Plugins\\";
+            logger = new ErrorLogger(SettingsFolder + "Error.log");
+        }
 
 
         /// <summary>
         /// Checks if the folders that need to exist actually exist
         /// </summary>
-        private void Check()
+        public void Check()
         {
+            if (SettingsFolder == null)
+                setVariables();
             if (!Directory.Exists(SettingsFolder))
             {
                 Directory.CreateDirectory(SettingsFolder);
@@ -187,6 +194,10 @@ namespace returnzork.Backup_V3
 
             ShouldIStop = false;
         }
+        public void ConsoleStartBackup()
+        {
+            Backup(true);
+        }
 
         /// <summary>
         /// Stop the backup worker
@@ -231,7 +242,7 @@ namespace returnzork.Backup_V3
         /// </summary>
         private void CopyWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            if(!Directory.Exists(ms.WorldFrom))
+            if (!Directory.Exists(ms.WorldFrom))
             {
                 MessageBox.Show("Directory \"" + ms.WorldFrom + "\" does not exist, cannot continue.");
                 logger.MakeLog("Directory does not exist");
@@ -277,8 +288,33 @@ namespace returnzork.Backup_V3
 
             PluginWork(true);
 
+            Backup();
+        }
+
+        /// <summary>
+        /// Perform the backup
+        /// </summary>
+        /// <param name="console">true if ran from console</param>
+        private void Backup(bool console = false)
+        {
+            if (!Directory.Exists(ms.WorldFrom))
+            {
+                if (!Directory.Exists(ms.WorldFrom))
+                {
+                    MessageBox.Show("Directory \"" + ms.WorldFrom + "\" does not exist, cannot continue.");
+                    logger.MakeLog("Directory does not exist");
+                    ShouldIStop = true;
+                    if(!console)
+                        CopyWorker.ReportProgress(0);
+                    return;
+                }
+            }
+
+
+
             UpdateExcludeFolders();
-            CopyWorker.ReportProgress(10);
+            if(!console)
+                CopyWorker.ReportProgress(10);
 
 
 
@@ -291,7 +327,7 @@ namespace returnzork.Backup_V3
 
             if (!Directory.Exists(ms.WorldTo + dt))
             {
-                Directory.CreateDirectory(ms.WorldTo + dt);
+                Directory.CreateDirectory(ms.WorldTo + "\\" + dt);
             }
 
 
@@ -301,6 +337,8 @@ namespace returnzork.Backup_V3
             {
                 foreach (string DirCreate in Directory.GetDirectories(ms.WorldFrom, "*", SearchOption.AllDirectories))
                 {
+                    if(!ms.WorldTo.EndsWith("\\"))
+                        ms.WorldTo += "\\";
                     string DIR = DirCreate.Replace(ms.WorldFrom, ms.WorldTo + dt + "\\");
                     bool ShouldIContinue = true;
 
@@ -320,11 +358,12 @@ namespace returnzork.Backup_V3
 
                     foreach (string file in Directory.GetFiles(DirCreate))
                     {
-                        string NewFile = file.Replace(ms.WorldFrom, ms.WorldTo + "\\" + dt + "\\");
+                        string NewFile = file.Replace(ms.WorldFrom, ms.WorldTo + dt + "\\");
                         File.Copy(file, NewFile);
                     }
                 }
-                CopyWorker.ReportProgress(35);
+                if (!console)
+                    CopyWorker.ReportProgress(35);
                 foreach (string file in Directory.GetFiles(ms.WorldFrom))
                 {
                     string NewFile = file.Replace(ms.WorldFrom, ms.WorldTo + "\\" + dt + "\\");
@@ -352,19 +391,22 @@ namespace returnzork.Backup_V3
                 }
             }
 
-            CopyWorker.ReportProgress(75);
-            
+            if(!console)
+                CopyWorker.ReportProgress(75);
+
 
 
             UpdateImports(dt);
 
             PluginWork();
 
-            CopyWorker.ReportProgress(100);
+            if(!console)
+                CopyWorker.ReportProgress(100);
 
 
-            if(ms.PlayFinishedSound)
+            if (ms.PlayFinishedSound)
                 System.Media.SystemSounds.Asterisk.Play();
+
 
         }
 
@@ -374,6 +416,8 @@ namespace returnzork.Backup_V3
         /// <param name="before">set to true when running before the backup</param>
         private void PluginWork(bool before = false)
         {
+            if (plugins == null)
+                return;
             if (before)
             {
                 for (int i = 0; i < 10; i++)
