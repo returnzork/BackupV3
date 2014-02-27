@@ -15,7 +15,7 @@ namespace returnzork.Backup_V3
         {
             if (args.Length != 0)
             {
-                bool error = false;
+                bool didRun = false;
                 foreach (string argument in args)
                 {
                     Form1 form = new Form1();
@@ -24,15 +24,13 @@ namespace returnzork.Backup_V3
                         case "backup":
                             form.Check();
                             form.ConsoleStartBackup();
+                            didRun = true;
                             break;
                         default:
-                            error = true;
                             break;
                     }
                 }
-                if (error)
-                    return 1;
-                else
+                if (didRun)
                     return 0;
             }
 
