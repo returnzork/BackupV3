@@ -87,6 +87,8 @@ namespace returnzork.Backup_V3
                 Directory.CreateDirectory(SettingsFolder + "PluginConfig");
             if (!Directory.Exists(SettingsFolder + "PluginLib"))
                 Directory.CreateDirectory(SettingsFolder + "PluginLib");
+            if (!Directory.Exists(SettingsFolder + "Plugins"))
+                Directory.CreateDirectory(SettingsFolder + "Plugins");
         }
 
         /// <summary>
